@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+*.so
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+dist/
+
+# VS Code
+.vscode/
