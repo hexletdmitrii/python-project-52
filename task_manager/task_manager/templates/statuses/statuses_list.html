@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Statuses list</h1>
+
+<a href="{% url 'create_status' %}" class="btn btn-primary">Create status</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Created ad</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for status in statuses %}
+        <tr>
+            <td>{{ status.pk }}</td>
+            <td>{{ status.name }}</td>
+            <td>{{ status.created_at }}</td>
+            <th>
+                <a href="{% url 'update_status' status.pk %}">Edit</a>
+                &nbsp;
+                <a href="{% url 'delete_status' status.pk %}">Delete</a>
+            </th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

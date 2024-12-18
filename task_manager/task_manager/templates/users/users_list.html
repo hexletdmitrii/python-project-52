@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Users</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">User name</th>
+            <th scope="col">Full name</th>
+            <th scope="col">Created ad</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.get_full_name }}</td>
+            <td>{{ user.created_at|date:"d.m.Y H:i" }}</td>
+            <th><a href="{% url 'update_user' user.pk %}">Edit</a>
+                &nbsp;
+                <a href="{% url 'delete_user' user.pk %}">Delete</a>
+            </th>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Tasks</h1>
+<a href="{% url 'task_create' %}" class="btn btn-primary">Create task</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Status</th>
+            <th scope="col">Author</th>
+            <th scope="col">Executor</th>
+            <th scope="col">Created at</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+            <tr>
+                <td>{{ task.pk }}</td>
+                <td>{{ task.name }}</td>
+                <td>{{ task.status }}</td>
+                <td>{{ task.author }}</td>
+                <td>{{ task.executor }}</td>
+                <td>{{ task.created_at }}</td>
+                <th>
+                    <a href="{% url 'task_update' task.pk %}">Edit</a>
+                    &nbsp;
+                    <a href="{% url 'task_delete' task.pk %}">Delete</a>
+                </th>
+
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
