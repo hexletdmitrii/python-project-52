@@ -31,6 +31,10 @@ DEBUG = True
 ALLOWED_HOSTS = ['webserver', 'python-project-52-7j3i.onrender.com', '0.0.0.0']
 
 MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://python-project-52-7j3i.onrender.com',
+]
 # Application definition
 
 INSTALLED_APPS = [
