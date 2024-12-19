@@ -4,7 +4,7 @@
 <p>Вы уверены, что хотите удалить статус "{{ object.name }}"?</p>
 <form method="post">
     {% csrf_token %}
-    <button type="submit">Удалить</button>
+    <button type="submit" class="btn btn-danger">Удалить</button>
 </form>
-<a href="{% url 'statuses_list' %}">Назад</a>
+<a href="{% url 'statuses_list' %}">Cancel</a>
 {% endblock %}

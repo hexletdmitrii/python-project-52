@@ -5,10 +5,13 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from .models import Label
 from tasks.models import Task
+
+
 class LabelListView(LoginRequiredMixin, ListView):
     model = Label
     template_name = 'labels/labels_list.html'
     context_object_name = 'labels'
+
 
 class LabelCreateView(LoginRequiredMixin, CreateView):
     model = Label
@@ -20,6 +23,7 @@ class LabelCreateView(LoginRequiredMixin, CreateView):
         messages.success(self.request, "Метка успешно создана!")
         return super().form_valid(form)
 
+
 class LabelUpdateView(LoginRequiredMixin, UpdateView):
     model = Label
     fields = ['name']
@@ -29,6 +33,7 @@ class LabelUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         messages.success(self.request, "Метка успешно обновлена!")
         return super().form_valid(form)
+
 
 class LabelDeleteView(LoginRequiredMixin, DeleteView):
     model = Label

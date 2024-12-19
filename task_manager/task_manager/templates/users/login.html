@@ -4,7 +4,7 @@
 <h1>Loging</h1>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}  <!-- Здесь вы просто отображаете форму -->
+    {{ form.as_p }} 
     <button type="submit" class="btn btn-primary">Login</button>
 </form>
 <a href="{% url 'users_list' %}">Back to User List</a>

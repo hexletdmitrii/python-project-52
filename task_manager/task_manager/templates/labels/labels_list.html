@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1 class="mb-4">Labels</h1>
-<a href="{% url 'label_create' %}" class="btn btn-primary">Создать метку</a>
+<a href="{% url 'label_create' %}" class="btn btn-primary">Create lable</a>
 <table class="table table-striped">
     <thead>
         <tr>
@@ -18,11 +18,11 @@
             <td>{{ label.pk }}</td>
             <td>{{ label.name }}</td>
             <td>{{ label.created_at }}</td>
-            <td>
-                <a href="{% url 'label_update' label.pk %}">Редактировать</a>
-
-                <a href="{% url 'label_delete' label.pk %}">Удалить</a>
-            </td>
+            <th>
+                <a href="{% url 'label_update' label.pk %}">Edit</a>
+                &nbsp;
+                <a href="{% url 'label_delete' label.pk %}">Delete</a>
+            </th>
         </tr>
         {% endfor %}
     </tbody>

@@ -10,10 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
-from pathlib import Path
 import os
 from dotenv import load_dotenv
 import dj_database_url
+from django.contrib.messages import constants as message_constants
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +30,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['webserver', 'python-project-52-7j3i.onrender.com', '0.0.0.0']
 
-
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 # Application definition
 
 INSTALLED_APPS = [
@@ -78,9 +78,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'task_manager.wsgi.application'
 
-
-
-
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -126,6 +123,13 @@ USE_I18N = True
 
 USE_TZ = True
 
+MESSAGE_TAGS = {
+    message_constants.DEBUG: 'secondary',
+    message_constants.INFO: 'info',
+    message_constants.SUCCESS: 'success',
+    message_constants.WARNING: 'warning',
+    message_constants.ERROR: 'danger',  # Переназначаем error -> danger
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/

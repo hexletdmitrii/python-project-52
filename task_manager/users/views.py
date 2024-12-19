@@ -1,30 +1,47 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic.base import TemplateView
-from django.views.generic import ListView
-from django.utils.translation import gettext_lazy as gl
-from users.models import User
-from django.contrib.auth.views import LoginView
-from django.contrib.auth import login, authenticate
+from django.views.generic import TemplateView, ListView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import reverse_lazy
-from users.forms import LoginUserForm, UserRegistrationForm, UserUpdateForm
-from django.views import View
+from django.contrib.auth import login
 from django.contrib import messages
+from django.utils.translation import gettext_lazy as _
+from users.models import User
+from users.forms import LoginUserForm, UserRegistrationForm, UserUpdateForm
 
 
+# Миксин для проверки прав доступа
+class UserIsOwnerMixin:
+    def dispatch(self, request, *args, **kwargs):
+        user = self.get_object()
+        if request.user != user:
+            messages.error(request, _("You are not allowed to perform this action."))
+            return redirect('users_list')
+        return super().dispatch(request, *args, **kwargs)
+
+
+# Главная страница
 class HomeView(TemplateView):
     template_name = "home.html"
 
 
+# Список пользователей
 class UserListView(ListView):
     model = User
     template_name = 'users/users_list.html'
     context_object_name = 'users'
     extra_context = {
-        'title': gl('Users'),
+        'title': _("Users"),
     }
 
+    def get_context_data(self, **kwargs):
+        # Вызовите родительский метод, чтобы получить стандартный контекст
+        context = super().get_context_data(**kwargs)
+        # Добавьте свои данные в контекст
+        context['extra_data'] = 'some data'
+        return context
 
+# Вход в систему
 class LoginUserView(LoginView):
     template_name = 'users/login.html'
     form_class = LoginUserForm
@@ -32,79 +49,49 @@ class LoginUserView(LoginView):
     def get_success_url(self):
         return reverse_lazy('home')
 
-    def form_valid(self, form):
-        user = authenticate(
-            username=form.cleaned_data['username'],
-            password=form.cleaned_data['password']
-        )
-        if user and user.is_active:
-            login(self.request, user)
-            return super().form_valid(form)
-        else:
-            form.add_error(None, "Неверное имя пользователя или пароль.")
-            return self.form_invalid(form)
+    def form_invalid(self, form):
+        messages.error(self.request, _("Invalid username or password."))
+        return super().form_invalid(form)
 
 
+# Выход из системы
 class UserLogoutView(LogoutView):
     next_page = reverse_lazy('users_login')
 
 
-class UserCreateView(View):
-    def get(self, request):
-        form = UserRegistrationForm()
-        return render(request, 'users/register.html', {'form': form})
+# Регистрация пользователя
+class UserCreateView(CreateView):
+    model = User
+    form_class = UserRegistrationForm
+    template_name = 'users/register.html'
+    success_url = reverse_lazy('users_login')
 
-    def post(self, request):
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            new_user = form.save(commit=False)
-            new_user.set_password(form.cleaned_data['password'])
-            new_user.save()
-            # login(self.request, new_user)   
-            # return redirect(reverse_lazy('users_list'))
-            return redirect(reverse_lazy('users_login'))
-        return render(request, 'users/register.html', {'form': form})
+    def form_valid(self, form):
+        user = form.save(commit=False)
+        user.set_password(form.cleaned_data['password'])
+        user.save()
+        messages.success(self.request, _("Your account has been successfully created."))
+        return super().form_valid(form)
 
 
-class UserDeleteView(View):
-    def get(self, request, pk):
-        user = get_object_or_404(User, pk=pk)
-        # Проверяем, является ли текущий пользователь владельцем профиля
-        if request.user != user:
-            messages.error(request, "You are not allowed to delete this user.")
-            return redirect('users_list')  # Перенаправление на список пользователей
-        return render(request, 'users/delete.html', {'user': user})
+# Удаление пользователя
+class UserDeleteView(UserIsOwnerMixin, DeleteView):
+    model = User
+    template_name = 'users/delete.html'
+    success_url = reverse_lazy('users_list')
 
-    def post(self, request, pk):
-        user = get_object_or_404(User, pk=pk)
-        # Проверяем, является ли текущий пользователь владельцем профиля
-        if request.user != user:
-            messages.error(request, "You are not allowed to delete this user.")
-            return redirect('users_list')  # Перенаправление на список пользователей
-        user.delete()
-        messages.success(request, "Your account has been successfully deleted.")
-        return redirect('users_list')  # Перенаправление на список пользователей
-    
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, _("Your account has been successfully deleted."))
+        return super().delete(request, *args, **kwargs)
 
-class UserUpdateView(View):
-    def get(self, request, pk):
-        user = get_object_or_404(User, pk=pk)
-        # Проверяем, является ли текущий пользователь владельцем профиля
-        if request.user != user:
-            messages.error(request, "You are not allowed to edit this user.")
-            return redirect('users_list')  # Перенаправление на список пользователей
-        form = UserUpdateForm(instance=user)
-        return render(request, 'users/update.html', {'form': form, 'user': user})
 
-    def post(self, request, pk):
-        user = get_object_or_404(User, pk=pk)
-        # Проверяем, является ли текущий пользователь владельцем профиля
-        if request.user != user:
-            messages.error(request, "You are not allowed to edit this user.")
-            return redirect('users_list')  # Перенаправление на список пользователей
-        form = UserUpdateForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Your profile has been successfully updated.")
-            return redirect('users_list')  # Перенаправление на список пользователей
-        return render(request, 'users/update.html', {'form': form, 'user': user})
+# Обновление профиля пользователя
+class UserUpdateView(UserIsOwnerMixin, UpdateView):
+    model = User
+    form_class = UserUpdateForm
+    template_name = 'users/update.html'
+    success_url = reverse_lazy('users_list')
+
+    def form_valid(self, form):
+        messages.success(self.request, _("Your profile has been successfully updated."))
+        return super().form_valid(form)

@@ -31,7 +31,7 @@ class UserUpdateForm(forms.ModelForm):
     password = forms.CharField(
         label="Password",
         widget=forms.PasswordInput,
-        required=False,  # Сделайте поле необязательным, если вы не хотите заставлять пользователя вводить пароль при каждом обновлении
+        required=False,
     )
     password_confirm = forms.CharField(
         label="Confirm Password",
