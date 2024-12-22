@@ -7,12 +7,54 @@ from django.views.generic import (
 from django.contrib import messages
 from .models import Task
 from .forms import TaskForm
+from .models import Task
+from django.views.generic import ListView
+from tasks.models import Task
+from statuses.models import Status
+from labels.models import Label
+from users.models import User
 
 
-class TaskListView(LoginRequiredMixin, ListView):
+class TaskListView(ListView):
     model = Task
     template_name = 'tasks/tasks_list.html'
     context_object_name = 'tasks'
+
+    def get_queryset(self):
+        """
+        Фильтруем задачи на основе GET-параметров.
+        """
+        queryset = super().get_queryset()
+        selected_status = self.request.GET.get('status', '')
+        selected_executor = self.request.GET.get('executor', '')
+        selected_label = self.request.GET.get('label', '')
+        selected_my = self.request.GET.get('my_tasks', '')
+
+        if selected_status:
+            queryset = queryset.filter(status_id=selected_status)
+        if selected_executor:
+            queryset = queryset.filter(executor_id=selected_executor)
+        if selected_label:
+            queryset = queryset.filter(labels__id=selected_label)
+        if selected_my and self.request.user.is_authenticated:
+            # Фильтруем задачи, где текущий пользователь является исполнителем
+            queryset = queryset.filter(executor=self.request.user)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        """
+        Добавляем дополнительные данные в контекст.
+        """
+        context = super().get_context_data(**kwargs)
+        context['statuses'] = Status.objects.all()
+        context['executors'] = User.objects.all()
+        context['labels'] = Label.objects.all()
+        context['selected_status'] = self.request.GET.get('status', '')
+        context['selected_executor'] = self.request.GET.get('executor', '')
+        context['selected_label'] = self.request.GET.get('label', '')
+        context['selected_my'] = self.request.GET.get('my_tasks', '')
+        return context
 
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
@@ -60,3 +102,6 @@ class TaskDetailView(LoginRequiredMixin, DetailView):
     model = Task
     template_name = 'tasks/detail.html'
     context_object_name = 'task'
+
+
+
