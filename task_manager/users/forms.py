@@ -56,8 +56,6 @@ class UserUpdateForm(forms.ModelForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         password = self.cleaned_data.get("password")
-
-        # Если пользователь ввел новый пароль, обновляем его
         if password:
             user.set_password(password)
 

@@ -54,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     password = models.CharField(
         verbose_name=_('Password'),
-        max_length=128,  # Рекомендуется использовать 128 символов для хэшированных паролей
+        max_length=128, 
         null=False,
         blank=False,
     )
@@ -66,13 +66,13 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     groups = models.ManyToManyField(
         'auth.Group',
-        related_name='custom_user_set',  # Уникальное имя обратной связи
+        related_name='custom_user_set',
         blank=True,
         verbose_name=_('Groups')
     )
     user_permissions = models.ManyToManyField(
         'auth.Permission',
-        related_name='custom_user_permissions_set',  # Уникальное имя обратной связи
+        related_name='custom_user_permissions_set', 
         blank=True,
         verbose_name=_('User permissions')
     )

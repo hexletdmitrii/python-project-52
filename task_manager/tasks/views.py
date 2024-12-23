@@ -21,9 +21,6 @@ class TaskListView(ListView):
     context_object_name = 'tasks'
 
     def get_queryset(self):
-        """
-        Фильтруем задачи на основе GET-параметров.
-        """
         queryset = super().get_queryset()
         selected_status = self.request.GET.get('status', '')
         selected_executor = self.request.GET.get('executor', '')
@@ -42,9 +39,6 @@ class TaskListView(ListView):
         return queryset
 
     def get_context_data(self, **kwargs):
-        """
-        Добавляем дополнительные данные в контекст.
-        """
         context = super().get_context_data(**kwargs)
         context['statuses'] = Status.objects.all()
         context['executors'] = User.objects.all()

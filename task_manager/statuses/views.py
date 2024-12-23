@@ -39,7 +39,7 @@ class StatusUpdateView(LoginRequiredMixin, UpdateView):
 
 class StatusDeleteView(DeleteView):
     model = Status
-    success_url = '/statuses/'  # Или используйте reverse('statuses_list')
+    success_url = '/statuses/'
     template_name = 'statuses/delete.html'
 
     def post(self, request, *args, **kwargs):

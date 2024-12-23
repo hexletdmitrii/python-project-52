@@ -21,7 +21,6 @@ from rollbar.contrib.django.middleware import RollbarNotifierMiddleware
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-# BASE_DIR = Path(__file__).resolve().parent.parent
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -101,13 +100,11 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 
 ROLLBAR = {
     'access_token': os.getenv('ROLLBAR_ACCESS_TOKEN'),
-    'environment': os.getenv('DJANGO_ENV', 'production'),  # По умолчанию production
+    'environment': os.getenv('DJANGO_ENV', 'production'),
     'root': BASE_DIR,
 }
 
@@ -148,7 +145,7 @@ MESSAGE_TAGS = {
     message_constants.INFO: 'info',
     message_constants.SUCCESS: 'success',
     message_constants.WARNING: 'warning',
-    message_constants.ERROR: 'danger',  # Переназначаем error -> danger
+    message_constants.ERROR: 'danger',  
 }
 
 # Static files (CSS, JavaScript, Images)
