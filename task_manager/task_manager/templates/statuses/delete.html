@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Удалить статус</h1>
-<p>Вы уверены, что хотите удалить статус "{{ object.name }}"?</p>
+<h1>Delete Status</h1>
+<p>Are you sure you want to delete the status "{{ object.name }}"?</p>
 <form method="post">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Удалить</button>
+    <button type="submit" class="btn btn-danger">Delete</button>
 </form>
 <a href="{% url 'statuses_list' %}">Cancel</a>
 {% endblock %}

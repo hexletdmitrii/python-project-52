@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Создать задачу</h1>
+<h1>Create Task</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Создать</button>
+    <button type="submit" class="btn btn-primary">Create</button>
 </form>
-<a href="{% url 'tasks_list' %}">Отмена</a>
+<a href="{% url 'tasks_list' %}">Cancel</a>
 {% endblock %}

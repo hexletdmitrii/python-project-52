@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Создать метку</h1>
+<h1>Create Label</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-success">Создать</button>
+    <button type="submit" class="btn btn-success">Create</button>
+    <a href="{% url 'labels_list' %}" class="btn btn-secondary">Cancel</a>
 </form>
 {% endblock %}

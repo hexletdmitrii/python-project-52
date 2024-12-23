@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Task ditails</h1>
+<div>
+    <h2>{{ task.name }}</h2>
+    <p><strong>Description:</strong> {{ task.description }}</p>
+    <p><strong>Status:</strong> {{ task.status }}</p>
+    <p><strong>Label:</strong> 
+        {% if task.labels.exists %}
+            {% for label in task.labels.all %}
+                {{ label.name }}{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+        {% else %}
+            Empty
+        {% endif %}
+    </p>
+    <p><strong>Created at:</strong> {{ task.created_at|date:"d.m.Y H:i" }}</p>
+</div>
+<a href="{% url 'tasks_list' %}">Back</a>
+{% endblock %}

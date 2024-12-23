@@ -15,7 +15,7 @@ class Task(models.Model):
         )
     executor = models.ForeignKey(
         User, on_delete=models.SET_NULL, related_name="tasks_assigned",
-        null=True, blank=True, verbose_name="User"
+        null=True, blank=True, verbose_name="executor"
         )
     labels = models.ManyToManyField(
         'labels.Label', blank=True, related_name='tasks', verbose_name="Метки"

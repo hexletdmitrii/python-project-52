@@ -37,7 +37,6 @@ class TaskListView(ListView):
         if selected_label:
             queryset = queryset.filter(labels__id=selected_label)
         if selected_my and self.request.user.is_authenticated:
-            # Фильтруем задачи, где текущий пользователь является исполнителем
             queryset = queryset.filter(executor=self.request.user)
 
         return queryset
@@ -98,10 +97,7 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return super().form_valid(form)
 
 
-class TaskDetailView(LoginRequiredMixin, DetailView):
+class TaskDetailView(DetailView):
     model = Task
-    template_name = 'tasks/detail.html'
+    template_name = 'tasks/task.html'
     context_object_name = 'task'
-
-
-

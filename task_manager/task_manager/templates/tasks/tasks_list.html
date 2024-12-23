@@ -7,7 +7,7 @@
     <div class="card-body bg-light">
       <form class="form-inline center" method="get">
         <div class="mb-3">
-          <label class="form-label" for="id_status">Статус</label>
+          <label class="form-label" for="id_status">Status</label>
           <select name="status" class="form-select ml-2 mr-3 is-valid" id="id_status">
             <option value="">---------</option>
             {% for status in statuses %}
@@ -18,7 +18,7 @@
           </select>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="id_executor">Исполнитель</label>
+          <label class="form-label" for="id_executor">Executor</label>
           <select name="executor" class="form-select mr-3 ml-2 is-valid" id="id_executor">
             <option value="">---------</option>
             {% for executor in executors %}
@@ -29,7 +29,7 @@
           </select>
         </div>
         <div class="mb-3">
-          <label class="form-label" for="id_label">Метка</label>
+          <label class="form-label" for="id_label">Label</label>
           <select name="label" class="form-select mr-3 ml-2 is-valid" id="id_label">
             <option value="">---------</option>
             {% for label in labels %}
@@ -42,9 +42,9 @@
         <div class="mb-3 form-check">
           <input type="checkbox" class="form-check-input" id="id_my_tasks" name="my_tasks" value="1" 
           {% if selected_my %}checked{% endif %}>
-          <label class="form-check-label" for="id_my_tasks">Мои задачи</label>
+          <label class="form-check-label" for="id_my_tasks">My tasks</label>
         </div>
-        <button type="submit" class="btn btn-primary">Фильтровать</button>
+        <button type="submit" class="btn btn-primary">Filter</button>
       </form>
     </div>
   </div>
@@ -64,7 +64,7 @@
         {% for task in tasks %}
             <tr>
                 <td>{{ task.pk }}</td>
-                <td>{{ task.name }}</td>
+                <td><a href="{% url 'task_detail' task.id %}">{{ task.name }}</a></td>
                 <td>{{ task.status }}</td>
                 <td>{{ task.author }}</td>
                 <td>{{ task.executor }}</td>
