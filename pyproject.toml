@@ -19,3 +19,4 @@ rollbar = "^1.1.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+include = [{ include = "task_manager", from = "." }]
