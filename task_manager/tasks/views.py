@@ -9,10 +9,10 @@ from .models import Task
 from .forms import TaskForm
 from .models import Task
 from django.views.generic import ListView
-from tasks.models import Task
-from statuses.models import Status
-from labels.models import Label
-from users.models import User
+from task_manager.tasks.models import Task
+from task_manager.statuses.models import Status
+from task_manager.labels.models import Label
+from task_manager.users.models import User
 
 
 class TaskListView(ListView):

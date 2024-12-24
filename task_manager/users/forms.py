@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
-from users.models import User
+from task_manager.users.models import User
 from django.core.exceptions import ValidationError
 
 

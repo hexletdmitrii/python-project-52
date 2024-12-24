@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from .models import Label
-from tasks.models import Task
+from task_manager.tasks.models import Task
 
 
 class LabelListView(LoginRequiredMixin, ListView):

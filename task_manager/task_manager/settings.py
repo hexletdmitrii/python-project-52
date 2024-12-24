@@ -51,10 +51,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
-    'users',
-    'statuses',
-    'labels',
-    'tasks',
+    'task_manager.users',
+    'task_manager.statuses',
+    'task_manager.labels',
+    'task_manager.tasks',
     'django_bootstrap5',
     'task_manager',
 ]
@@ -70,12 +70,12 @@ MIDDLEWARE = [
     'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
 ]
 
-ROOT_URLCONF = 'task_manager.urls'
+ROOT_URLCONF = 'task_manager.task_manager.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'task_manager', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -88,7 +88,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'task_manager.wsgi.application'
+WSGI_APPLICATION = 'task_manager.task_manager.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases

@@ -6,7 +6,7 @@ from .models import Status
 from .forms import StatusForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from tasks.models import Task
+from task_manager.tasks.models import Task
 
 
 class StatusListView(LoginRequiredMixin, ListView):
