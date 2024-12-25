@@ -9,7 +9,7 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('The Username field must be set')
         if not password:
             raise ValueError('The Password field must be set')
-        if password != confirm_password:
+        if confirm_password and password != confirm_password:
             raise ValueError('The confirmed_password field must match the password')
         extra_fields.setdefault('is_active', True)
         user = self.model(username=username, **extra_fields)
@@ -72,7 +72,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     user_permissions = models.ManyToManyField(
         'auth.Permission',
-        related_name='custom_user_permissions_set', 
+        related_name='custom_user_permissions_set',
         blank=True,
         verbose_name=_('User permissions')
     )

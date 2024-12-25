@@ -7,7 +7,6 @@ from django.views.generic import (
 from django.contrib import messages
 from .models import Task
 from .forms import TaskForm
-from .models import Task
 from django.views.generic import ListView
 from task_manager.tasks.models import Task
 from task_manager.statuses.models import Status
@@ -58,7 +57,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        messages.success(self.request, "Задача успешно создана.")
+        messages.success(self.request, "The task has been successfully created.")
         return super().form_valid(form)
 
 
@@ -69,7 +68,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('tasks_list')
 
     def form_valid(self, form):
-        messages.success(self.request, "Задача успешно обновлена.")
+        messages.success(self.request, "The task has been successfully updated.")
         return super().form_valid(form)
 
 

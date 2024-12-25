@@ -60,7 +60,7 @@ class UserCreateView(CreateView):
 
     def form_valid(self, form):
         user = form.save(commit=False)
-        user.set_password(form.cleaned_data['password'])
+        user.set_password(form.cleaned_data['password1'])
         user.save()
         messages.success(self.request, _("Your account has been successfully created."))
         return super().form_valid(form)

@@ -22,7 +22,7 @@ class StatusCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('statuses_list')
 
     def form_valid(self, form):
-        messages.success(self.request, "Статус успешно создан.")
+        messages.success(self.request, "The status has been successfully created.")
         return super().form_valid(form)
 
 
@@ -33,7 +33,7 @@ class StatusUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('statuses_list')
 
     def form_valid(self, form):
-        messages.success(self.request, "Статус успешно обновлен.")
+        messages.success(self.request, "The status has been successfully updated.")
         return super().form_valid(form)
 
 
@@ -49,6 +49,6 @@ class StatusDeleteView(DeleteView):
             related_tasks_list = ", ".join(str(task) for task in related_tasks)
             messages.error(
                 request,
-                f"Невозможно удалить статус, так как он связан с задачами: {related_tasks_list}.")
+                f"Cannot delete the status as it is linked to tasks: {related_tasks_list}.")
             return HttpResponseRedirect(reverse('statuses_list'))
         return super().post(request, *args, **kwargs)

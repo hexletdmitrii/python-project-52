@@ -4,7 +4,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.http import HttpResponseRedirect
 from .models import Label
-from task_manager.tasks.models import Task
 
 
 class LabelListView(LoginRequiredMixin, ListView):
@@ -20,7 +19,7 @@ class LabelCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('labels_list')
 
     def form_valid(self, form):
-        messages.success(self.request, "Метка успешно создана!")
+        messages.success(self.request, "The label has been successfully created!")
         return super().form_valid(form)
 
 
@@ -31,7 +30,7 @@ class LabelUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy('labels_list')
 
     def form_valid(self, form):
-        messages.success(self.request, "Метка успешно обновлена!")
+        messages.success(self.request, "The label has been successfully updated!")
         return super().form_valid(form)
 
 
@@ -43,7 +42,7 @@ class LabelDeleteView(LoginRequiredMixin, DeleteView):
     def post(self, request, *args, **kwargs):
         label = self.get_object()
         if label.tasks.exists():
-            messages.error(self.request, "Невозможно удалить метку, так как она связана с задачами!")
+            messages.error(self.request, "Cannot delete the label as it is linked to tasks!")
             return HttpResponseRedirect(reverse_lazy('labels_list'))
-        messages.success(self.request, "Метка успешно удалена!")
+        messages.success(self.request, "The label has been successfully deleted!")
         return super().post(request, *args, **kwargs)

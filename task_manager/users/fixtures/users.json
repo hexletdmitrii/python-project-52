@@ -1,0 +1,15 @@
+[
+    {
+        "model": "auth.user",
+        "pk": 1,
+        "fields": {
+            "username": "testuser",
+            "first_name": "Tester",
+            "last_name": "Testoff",
+            "is_active": true,
+            "is_staff": false,
+            "is_superuser": false,
+            "password": "pbkdf2_sha256$260000$0qWz2N8uP7q8$L1qE1N3Z8hZ6P9E1aQ9J8Z3X1Q9L3Y4W1X9U3T9E1V9Y2J1L3Q9T9J9"
+        }
+    }
+]
