@@ -81,7 +81,7 @@ class UserDeleteView(UserIsOwnerMixin, DeleteView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Create user")
+        context['title'] = _("Delete User")
         context['back_url'] = "/"
         context['object_del'] = self.get_object().__str__
         return context
@@ -100,7 +100,7 @@ class UserUpdateView(UserIsOwnerMixin, SuccessMessageMixin, UpdateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Create user")
+        context['title'] = _("Update user")
         context['button'] = _("Submit")
         context['back_url'] = "/users/"
         return context

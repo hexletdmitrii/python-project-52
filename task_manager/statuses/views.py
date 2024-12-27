@@ -47,7 +47,7 @@ class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Create Status")
+        context['title'] = _("Update Status")
         context['button'] = _("Submit")
         context['back_url'] = "/statuses/"
         return context

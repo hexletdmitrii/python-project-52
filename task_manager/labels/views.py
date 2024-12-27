@@ -44,7 +44,7 @@ class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Create Lable")
+        context['title'] = _("Update Lable")
         context['button'] = _("Submit")
         context['back_url'] = "/labels/"
         return context

@@ -48,7 +48,7 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Create Task")
+        context['title'] = _("Update Task")
         context['button'] = _("Submit")
         context['back_url'] = "/tasks/"
         return context
@@ -73,7 +73,7 @@ class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin, UserPassesTestMixi
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Create Task")
+        context['title'] = _("Delete Task")
         context['back_url'] = "/tasks/"
         context['object_del'] = self.get_object().__str__
         return context
