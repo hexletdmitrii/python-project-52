@@ -1,81 +1,50 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
-from django.views.generic import (
-    ListView, CreateView, UpdateView, DeleteView, DetailView
-    )
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 from django.contrib import messages
 from .models import Task
 from .forms import TaskForm
-from django.views.generic import ListView
-from task_manager.tasks.models import Task
-from task_manager.statuses.models import Status
-from task_manager.labels.models import Label
-from task_manager.users.models import User
+from django.contrib.messages.views import SuccessMessageMixin
+from django.utils.translation import gettext_lazy as _
+from django_filters.views import FilterView
+from .filters import TaskFilter
 
 
-class TaskListView(ListView):
+class TaskListView(FilterView):
     model = Task
     template_name = 'tasks/tasks_list.html'
-    context_object_name = 'tasks'
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        selected_status = self.request.GET.get('status', '')
-        selected_executor = self.request.GET.get('executor', '')
-        selected_label = self.request.GET.get('label', '')
-        selected_my = self.request.GET.get('my_tasks', '')
-
-        if selected_status:
-            queryset = queryset.filter(status_id=selected_status)
-        if selected_executor:
-            queryset = queryset.filter(executor_id=selected_executor)
-        if selected_label:
-            queryset = queryset.filter(labels__id=selected_label)
-        if selected_my and self.request.user.is_authenticated:
-            queryset = queryset.filter(executor=self.request.user)
-
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['statuses'] = Status.objects.all()
-        context['executors'] = User.objects.all()
-        context['labels'] = Label.objects.all()
-        context['selected_status'] = self.request.GET.get('status', '')
-        context['selected_executor'] = self.request.GET.get('executor', '')
-        context['selected_label'] = self.request.GET.get('label', '')
-        context['selected_my'] = self.request.GET.get('my_tasks', '')
-        return context
+    filterset_class = TaskFilter
 
 
-class TaskCreateView(LoginRequiredMixin, CreateView):
+class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = 'tasks/create.html'
     success_url = reverse_lazy('tasks_list')
+    success_message = _("The task has been successfully created.")
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        messages.success(self.request, "The task has been successfully created.")
         return super().form_valid(form)
 
 
-class TaskUpdateView(LoginRequiredMixin, UpdateView):
+class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'tasks/update.html'
     success_url = reverse_lazy('tasks_list')
+    success_message = _("The task has been successfully updated.")
 
     def form_valid(self, form):
-        messages.success(self.request, "The task has been successfully updated.")
         return super().form_valid(form)
 
 
-class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin, UserPassesTestMixin, DeleteView):
     model = Task
     template_name = 'tasks/delete.html'
     success_url = reverse_lazy('tasks_list')
+    success_message = _("Task successfully deleted.")
 
     def test_func(self):
         task = self.get_object()
@@ -86,7 +55,6 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return redirect('tasks_list')
 
     def form_valid(self, form):
-        messages.success(self.request, "Task successfully deleted.")
         return super().form_valid(form)
 
 

@@ -54,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     password = models.CharField(
         verbose_name=_('Password'),
-        max_length=128, 
+        max_length=128,
         null=False,
         blank=False,
     )

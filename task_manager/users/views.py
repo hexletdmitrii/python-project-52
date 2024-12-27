@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from task_manager.users.models import User
 from task_manager.users.forms import LoginUserForm, UserRegistrationForm, UserUpdateForm
+from django.contrib.messages.views import SuccessMessageMixin
 
 
 class UserIsOwnerMixin:
@@ -26,13 +27,9 @@ class UserListView(ListView):
     model = User
     template_name = 'users/users_list.html'
     context_object_name = 'users'
-    extra_context = {
-        'title': _("Users"),
-    }
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['extra_data'] = 'some data'
         return context
 
 
@@ -52,17 +49,17 @@ class UserLogoutView(LogoutView):
     next_page = reverse_lazy('users_login')
 
 
-class UserCreateView(CreateView):
+class UserCreateView(SuccessMessageMixin, CreateView):
     model = User
     form_class = UserRegistrationForm
     template_name = 'users/register.html'
     success_url = reverse_lazy('users_login')
+    success_message = _("Your account has been successfully created.")
 
     def form_valid(self, form):
         user = form.save(commit=False)
         user.set_password(form.cleaned_data['password1'])
         user.save()
-        messages.success(self.request, _("Your account has been successfully created."))
         return super().form_valid(form)
 
 
@@ -76,11 +73,12 @@ class UserDeleteView(UserIsOwnerMixin, DeleteView):
         return super().delete(request, *args, **kwargs)
 
 
-class UserUpdateView(UserIsOwnerMixin, UpdateView):
+class UserUpdateView(UserIsOwnerMixin, SuccessMessageMixin, UpdateView):
     model = User
     form_class = UserUpdateForm
     template_name = 'users/update.html'
     success_url = reverse_lazy('users_list')
+    success_message = _("Your profile has been successfully updated.")
 
     def form_valid(self, form):
         messages.success(self.request, _("Your profile has been successfully updated."))

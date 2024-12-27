@@ -7,6 +7,8 @@ from .forms import StatusForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from task_manager.tasks.models import Task
+from django.contrib.messages.views import SuccessMessageMixin
+from django.utils.translation import gettext_lazy as _
 
 
 class StatusListView(LoginRequiredMixin, ListView):
@@ -15,32 +17,33 @@ class StatusListView(LoginRequiredMixin, ListView):
     context_object_name = 'statuses'
 
 
-class StatusCreateView(LoginRequiredMixin, CreateView):
+class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Status
     form_class = StatusForm
     template_name = 'statuses/create.html'
     success_url = reverse_lazy('statuses_list')
+    success_message = _("The status has been successfully created.")
 
     def form_valid(self, form):
-        messages.success(self.request, "The status has been successfully created.")
         return super().form_valid(form)
 
 
-class StatusUpdateView(LoginRequiredMixin, UpdateView):
+class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Status
     form_class = StatusForm
     template_name = 'statuses/update.html'
     success_url = reverse_lazy('statuses_list')
+    success_message = _("The status has been successfully updated.")
 
     def form_valid(self, form):
-        messages.success(self.request, "The status has been successfully updated.")
         return super().form_valid(form)
 
 
-class StatusDeleteView(DeleteView):
+class StatusDeleteView(DeleteView, SuccessMessageMixin):
     model = Status
     success_url = '/statuses/'
     template_name = 'statuses/delete.html'
+    success_message = _("The status has been successfully deleted.")
 
     def post(self, request, *args, **kwargs):
         status = self.get_object()

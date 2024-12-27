@@ -3,6 +3,7 @@ from django.test import TestCase
 
 User = get_user_model()
 
+
 class UserTest(TestCase):
     @classmethod
     def setUpTestData(cls):

@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from task_manager.users.models import User
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm
 
 
 class LoginUserForm(AuthenticationForm):
@@ -9,16 +10,10 @@ class LoginUserForm(AuthenticationForm):
         super().__init__(request=request, *args, **kwargs)
 
 
-class UserRegistrationForm(forms.ModelForm):
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(
-        label='Repeat password',
-        widget=forms.PasswordInput
-        )
-
+class UserRegistrationForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name']
+        fields = ['username', 'first_name', 'last_name', 'password1', 'password2']
 
     def clean_password2(self):
         cd = self.cleaned_data
@@ -29,12 +24,12 @@ class UserRegistrationForm(forms.ModelForm):
 
 class UserUpdateForm(forms.ModelForm):
     password1 = forms.CharField(
-        label="Password",
+        label="New Password",
         widget=forms.PasswordInput,
         required=False,
     )
     password_confirm = forms.CharField(
-        label="Confirm Password",
+        label="Confirm New Password",
         widget=forms.PasswordInput,
         required=False,
     )
@@ -45,7 +40,7 @@ class UserUpdateForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        password1 = cleaned_data.get("password")
+        password1 = cleaned_data.get("password1")
         password_confirm = cleaned_data.get("password_confirm")
 
         if password1 and password1 != password_confirm:
@@ -55,13 +50,10 @@ class UserUpdateForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        password1 = self.cleaned_data.get("password")
-        if password:
+        password1 = self.cleaned_data.get("password1")
+        if password1:
             user.set_password(password1)
 
         if commit:
             user.save()
         return user
-
-
-

@@ -14,16 +14,10 @@ import os
 from dotenv import load_dotenv
 import dj_database_url
 from django.contrib.messages import constants as message_constants
-import rollbar
-from rollbar.contrib.django.middleware import RollbarNotifierMiddleware
-
-
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -50,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_bootstrap5',
+    'crispy_forms',
     'django_filters',
     'task_manager.users',
     'task_manager.statuses',
@@ -90,6 +86,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'task_manager.wsgi.application'
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
@@ -98,8 +97,6 @@ load_dotenv()
 DATABASES = {
     'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
 }
-
-
 
 
 ROLLBAR = {
@@ -145,7 +142,7 @@ MESSAGE_TAGS = {
     message_constants.INFO: 'info',
     message_constants.SUCCESS: 'success',
     message_constants.WARNING: 'warning',
-    message_constants.ERROR: 'danger',  
+    message_constants.ERROR: 'danger',
 }
 
 # Static files (CSS, JavaScript, Images)
