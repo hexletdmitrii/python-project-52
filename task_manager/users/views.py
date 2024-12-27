@@ -52,7 +52,7 @@ class UserLogoutView(LogoutView):
 class UserCreateView(SuccessMessageMixin, CreateView):
     model = User
     form_class = UserRegistrationForm
-    template_name = 'users/register.html'
+    template_name = 'cud/create_update.html'
     success_url = reverse_lazy('users_login')
     success_message = _("Your account has been successfully created.")
 
@@ -62,24 +62,45 @@ class UserCreateView(SuccessMessageMixin, CreateView):
         user.save()
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = _("Create user")
+        context['button'] = _("Submit")
+        context['back_url'] = "/"
+        return context
+
 
 class UserDeleteView(UserIsOwnerMixin, DeleteView):
     model = User
-    template_name = 'users/delete.html'
+    template_name = 'cud/delete.html'
     success_url = reverse_lazy('users_list')
 
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, _("Your account has been successfully deleted."))
         return super().delete(request, *args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = _("Create user")
+        context['back_url'] = "/"
+        context['object_del'] = self.get_object().__str__
+        return context
 
 
 class UserUpdateView(UserIsOwnerMixin, SuccessMessageMixin, UpdateView):
     model = User
     form_class = UserUpdateForm
-    template_name = 'users/update.html'
+    template_name = 'cud/create_update.html'
     success_url = reverse_lazy('users_list')
     success_message = _("Your profile has been successfully updated.")
 
     def form_valid(self, form):
         messages.success(self.request, _("Your profile has been successfully updated."))
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = _("Create user")
+        context['button'] = _("Submit")
+        context['back_url'] = "/users/"
+        return context

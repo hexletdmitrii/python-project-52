@@ -20,29 +20,43 @@ class TaskListView(FilterView):
 class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Task
     form_class = TaskForm
-    template_name = 'tasks/create.html'
+    template_name = 'cud/create_update.html'
     success_url = reverse_lazy('tasks_list')
     success_message = _("The task has been successfully created.")
 
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = _("Create Task")
+        context['button'] = _("Submit")
+        context['back_url'] = "/tasks/"
+        return context
 
 
 class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Task
     form_class = TaskForm
-    template_name = 'tasks/update.html'
+    template_name = 'cud/create_update.html'
     success_url = reverse_lazy('tasks_list')
     success_message = _("The task has been successfully updated.")
 
     def form_valid(self, form):
         return super().form_valid(form)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = _("Create Task")
+        context['button'] = _("Submit")
+        context['back_url'] = "/tasks/"
+        return context
+
 
 class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin, UserPassesTestMixin, DeleteView):
     model = Task
-    template_name = 'tasks/delete.html'
+    template_name = 'cud/delete.html'
     success_url = reverse_lazy('tasks_list')
     success_message = _("Task successfully deleted.")
 
@@ -56,6 +70,13 @@ class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin, UserPassesTestMixi
 
     def form_valid(self, form):
         return super().form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = _("Create Task")
+        context['back_url'] = "/tasks/"
+        context['object_del'] = self.get_object().__str__
+        return context
 
 
 class TaskDetailView(DetailView):
