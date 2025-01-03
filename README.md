@@ -35,12 +35,9 @@ This project is a web application for task management, developed using Django. T
     make install
 
 4. Start the development server:
-    make install
-
-5. Run the server for testing:
     make dev
 
-or Start the development server:
+5. Start the development server:
     make start
 
 6. Run the linter:
