@@ -34,7 +34,7 @@ class CustomUserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(
-        verbose_name=_('Username'),
+        verbose_name=_('Имя пользователя'),
         max_length=100,
         unique=True,
         null=False,
@@ -53,7 +53,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=False,
     )
     password = models.CharField(
-        verbose_name=_('Password'),
+        verbose_name=_('Пароль'),
         max_length=128,
         null=False,
         blank=False,
