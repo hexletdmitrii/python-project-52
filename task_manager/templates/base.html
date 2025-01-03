@@ -15,12 +15,12 @@
                     <svg class="bi" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
                 </a>
                 <ul class="nav mb-2 mb-md-0">
-                    <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
-                    <li><a href="/users" class="nav-link px-2">Users</a></li>
+                    <li><a href="/" class="nav-link px-2 link-secondary">Менеджер задач</a></li>
+                    <li><a href="/users" class="nav-link px-2">Пользователи</a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="/statuses/" class="nav-link px-2">Statuses</a></li>
-                    <li><a href="/labels/" class="nav-link px-2">Labels</a></li>
-                    <li><a href="/tasks/" class="nav-link px-2">Tasks</a></li>
+                    <li><a href="/statuses/" class="nav-link px-2">Статусы</a></li>
+                    <li><a href="/labels/" class="nav-link px-2">Метки</a></li>
+                    <li><a href="/tasks/" class="nav-link px-2">Задачи</a></li>
                     {% endif %}
                 </ul>
             </div>
@@ -29,18 +29,16 @@
                     {% if request.user.is_authenticated %}
                         <form method="post" action="{% url 'users_logout' %}" style="display:inline;">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Exit</button>
+                            <button type="submit" class="btn btn-danger">Выход</button>
                         </form>
                     {% else %}
-                        <a href="{% url 'add_user' %}" class="btn btn-primary">Sign-up</a>
+                        <a href="{% url 'add_user' %}" class="btn btn-primary">Регистрация</a>
                         <a href="{% url 'users_login' %}" class="btn btn-secondary">Вход</a>
                     {% endif %}
                 </nav>
             </div>
         </header>
     </div>
-    <!-- Блок для флеш-сообщений -->
-
     <div class="container">
         {% if messages %}
         <div class="messages">
