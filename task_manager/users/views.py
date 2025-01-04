@@ -75,7 +75,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = _("Регистрация")
         context['button'] = _("Зарегистрировать")
-        context['back_url'] = "/"
+        context['back_url'] = reverse_lazy('users_list')
         return context
 
 
@@ -87,11 +87,11 @@ class UserDeleteView(UserIsOwnerMixin, DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, _("Пользователь успешно удален"))
         return super().delete(request, *args, **kwargs)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = _("Delete User")
-        context['back_url'] = "/"
+        context['back_url'] = reverse_lazy('users_list')
         context['object_del'] = self.get_object().__str__
         return context
 
@@ -101,15 +101,15 @@ class UserUpdateView(UserIsOwnerMixin, SuccessMessageMixin, UpdateView):
     form_class = UserUpdateForm
     template_name = 'cud/create_update.html'
     success_url = reverse_lazy('users_list')
-    success_message = _("Your profile has been successfully updated.")
+    success_message = _("Пользователь успешно зарегистрирован")
 
     def form_valid(self, form):
-        messages.success(self.request, _("Your profile has been successfully updated."))
+        messages.success(self.request, _("Пользователь успешно изменен"))
         return super().form_valid(form)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Update user")
-        context['button'] = _("Submit")
-        context['back_url'] = "/users/"
+        context['title'] = _("Изменение пользователя")
+        context['button'] = _("Изменить")
+        context['back_url'] = reverse_lazy('users_list')
         return context

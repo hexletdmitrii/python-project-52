@@ -42,12 +42,12 @@ class UserRegistrationForm(UserCreationForm):
 
 class UserUpdateForm(forms.ModelForm):
     password1 = forms.CharField(
-        label="New Password",
+        label="Пароль",
         widget=forms.PasswordInput,
         required=False,
     )
     password_confirm = forms.CharField(
-        label="Confirm New Password",
+        label="Подтверждение пароля",
         widget=forms.PasswordInput,
         required=False,
     )
