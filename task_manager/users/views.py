@@ -40,6 +40,10 @@ class LoginUserView(LoginView):
     def get_success_url(self):
         return reverse_lazy('home')
 
+    def form_valid(self, form):
+        messages.success(self.request, _("Вы залогинены"))
+        return super().form_valid(form)
+
     def form_invalid(self, form):
         messages.error(self.request, _("Неверное имя пользователя или пароль."))
         return super().form_invalid(form)
