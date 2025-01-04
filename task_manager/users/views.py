@@ -28,21 +28,14 @@ class UserListView(ListView):
     template_name = 'users/users_list.html'
     context_object_name = 'users'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
-
-class LoginUserView(LoginView):
+class LoginUserView(SuccessMessageMixin, LoginView):
     template_name = 'users/login.html'
     form_class = LoginUserForm
+    success_message = _("Вы залогинены")
 
     def get_success_url(self):
         return reverse_lazy('home')
-
-    def form_valid(self, form):
-        messages.success(self.request, _("Вы залогинены"))
-        return super().form_valid(form)
 
     def form_invalid(self, form):
         messages.error(self.request, _("Неверное имя пользователя или пароль."))
@@ -55,7 +48,6 @@ class UserLogoutView(LogoutView):
     def dispatch(self, request):
         messages.success(request, _("Вы разлогинены"))
         return super().dispatch(request)
-
 
 
 class UserCreateView(SuccessMessageMixin, CreateView):
@@ -79,14 +71,11 @@ class UserCreateView(SuccessMessageMixin, CreateView):
         return context
 
 
-class UserDeleteView(UserIsOwnerMixin, DeleteView):
+class UserDeleteView(UserIsOwnerMixin, SuccessMessageMixin, DeleteView):
     model = User
     template_name = 'cud/delete.html'
     success_url = reverse_lazy('users_list')
-
-    def delete(self, request, *args, **kwargs):
-        messages.success(self.request, _("Пользователь успешно удален"))
-        return super().delete(request, *args, **kwargs)
+    success_message = _("Пользователь успешно удален")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -96,20 +85,16 @@ class UserDeleteView(UserIsOwnerMixin, DeleteView):
         return context
 
 
-class UserUpdateView(UserIsOwnerMixin, SuccessMessageMixin, UpdateView):
+class UserUpdateView(SuccessMessageMixin, UserIsOwnerMixin, UpdateView):
     model = User
     form_class = UserUpdateForm
     template_name = 'cud/create_update.html'
     success_url = reverse_lazy('users_list')
-    success_message = _("Пользователь успешно зарегистрирован")
-
-    def form_valid(self, form):
-        messages.success(self.request, _("Пользователь успешно изменен"))
-        return super().form_valid(form)
+    success_message = _("Пользователь успешно изменен")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Изменение пользователя")
+        context['title'] = "Изменение пользователя"
         context['button'] = _("Изменить")
         context['back_url'] = reverse_lazy('users_list')
         return context

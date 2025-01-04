@@ -1,8 +1,7 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from task_manager.users.models import User
 from django.core.exceptions import ValidationError
-from django.contrib.auth.forms import UserCreationForm
 
 
 class LoginUserForm(AuthenticationForm):
@@ -23,59 +22,15 @@ class LoginUserForm(AuthenticationForm):
 
 
 class UserRegistrationForm(UserCreationForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.label_suffix = ""
-        self.fields['password1'].label = "Пароль"
-        self.fields['password2'].label = "Подтверждение пароля"
-    
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'password1', 'password2']
-
-    def clean_password2(self):
-        cd = self.cleaned_data
-        if cd['password1'] != cd['password2']:
-            raise forms.ValidationError('Passwords don\'t match.')
-        return cd['password2']
+        fields = ['username', 'first_name', 'last_name', 'password1', 'password2']
 
 
-class UserUpdateForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.label_suffix = ""
-    password1 = forms.CharField(
-        label="Пароль",
-        widget=forms.PasswordInput(attrs={'id': 'id_password1'}),
-        required=False,
-    )
-    password_confirm = forms.CharField(
-
-        label="Подтверждение пароля",
-        widget=forms.PasswordInput(attrs={'id': 'id_password2'}),
-        required=False,
-    )
-
-    class Meta:
-        model = User
+class UserUpdateForm(UserRegistrationForm):
+    class Meta(UserRegistrationForm.Meta):
         fields = ['username', 'first_name', 'last_name']
-
-    def clean(self):
-        cleaned_data = super().clean()
-        password1 = cleaned_data.get("password1")
-        password_confirm = cleaned_data.get("password_confirm")
-
-        if password1 and password1 != password_confirm:
-            raise ValidationError("Passwords do not match.")
-
-        return cleaned_data
-
-    def save(self, commit=True):
-        user = super().save(commit=False)
-        password1 = self.cleaned_data.get("password1")
-        if password1:
-            user.set_password(password1)
-
-        if commit:
-            user.save()
-        return user
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].required = False
+        self.fields['password_confirm'].required = False

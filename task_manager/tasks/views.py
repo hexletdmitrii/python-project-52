@@ -48,14 +48,11 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_url = reverse_lazy('tasks_list')
     success_message = _("The task has been successfully updated.")
 
-    def form_valid(self, form):
-        return super().form_valid(form)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = _("Update Task")
         context['button'] = _("Submit")
-        context['back_url'] = "/tasks/"
+        context['back_url'] = reverse_lazy('tasks_list')
         return context
 
 
@@ -72,9 +69,6 @@ class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin, UserPassesTestMixi
     def handle_no_permission(self):
         messages.error(self.request, "You cannot delete this task.")
         return redirect('tasks_list')
-
-    def form_valid(self, form):
-        return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
