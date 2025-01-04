@@ -6,8 +6,16 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 class LoginUserForm(AuthenticationForm):
-    def __init__(self, request=None, *args, **kwargs):
-        super().__init__(request=request, *args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Имя пользователя'
+        })
+        self.fields['password'].widget.attrs.update({
+            'class': 'form-control',
+            'placeholder': 'Пароль'
+        })
 
 
 class UserRegistrationForm(UserCreationForm):
