@@ -63,7 +63,7 @@ class UserCreateView(SuccessMessageMixin, CreateView):
     form_class = UserRegistrationForm
     template_name = 'cud/create_update.html'
     success_url = reverse_lazy('users_login')
-    success_message = _("Your account has been successfully created.")
+    success_message = _("Пользователь успешно зарегистрирован")
 
     def form_valid(self, form):
         user = form.save(commit=False)
@@ -85,7 +85,7 @@ class UserDeleteView(UserIsOwnerMixin, DeleteView):
     success_url = reverse_lazy('users_list')
 
     def delete(self, request, *args, **kwargs):
-        messages.success(self.request, _("Your account has been successfully deleted."))
+        messages.success(self.request, _("Пользователь успешно удален"))
         return super().delete(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs):
