@@ -19,6 +19,7 @@ class LoginUserForm(AuthenticationForm):
             'placeholder': 'Пароль',
             'name': 'password',
         })
+        self.fields['password'].label = "Пароль"
 
 
 class UserRegistrationForm(UserCreationForm):
