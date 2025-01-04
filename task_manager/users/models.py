@@ -41,13 +41,13 @@ class User(AbstractBaseUser, PermissionsMixin):
         blank=False,
     )
     first_name = models.CharField(
-        verbose_name=_('First name'),
+        verbose_name=_('Имя'),
         max_length=100,
         null=False,
         blank=False,
     )
     last_name = models.CharField(
-        verbose_name=_('Last name'),
+        verbose_name=_('Фамилия'),
         max_length=100,
         null=False,
         blank=False,

@@ -23,9 +23,15 @@ class LoginUserForm(AuthenticationForm):
 
 
 class UserRegistrationForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix = ""
+        self.fields['password1'].label = "Пароль"
+        self.fields['password2'].label = "Подтверждение пароля"
+    
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'password1', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'password1', 'password2']
 
     def clean_password2(self):
         cd = self.cleaned_data
