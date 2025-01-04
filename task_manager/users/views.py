@@ -50,7 +50,7 @@ class LoginUserView(LoginView):
 
 
 class UserLogoutView(LogoutView):
-    next_page = reverse_lazy('users_login')
+    next_page = reverse_lazy('home')
 
 
 class UserCreateView(SuccessMessageMixin, CreateView):
