@@ -52,6 +52,11 @@ class LoginUserView(LoginView):
 class UserLogoutView(LogoutView):
     next_page = reverse_lazy('home')
 
+    def dispatch(self, request):
+        messages.success(request, _("Вы разлогинены"))
+        return super().dispatch(request)
+
+
 
 class UserCreateView(SuccessMessageMixin, CreateView):
     model = User
