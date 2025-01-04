@@ -41,7 +41,7 @@ class LoginUserView(LoginView):
         return reverse_lazy('home')
 
     def form_invalid(self, form):
-        messages.error(self.request, _("Invalid username or password."))
+        messages.error(self.request, _("Неверное имя пользователя или пароль."))
         return super().form_invalid(form)
 
 
