@@ -95,7 +95,7 @@ class UserUpdateView(UserIsOwnerMixin, SuccessMessageMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = "Изменение пользователя"
+        context['title'] = _("Изменение пользователя")
         context['button'] = _("Изменить")
         context['back_url'] = reverse_lazy('users_list')
         return context
@@ -109,7 +109,7 @@ class UserDeleteView(UserIsOwnerMixin, SuccessMessageMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Delete User")
+        context['title'] = _("Удалить пользователя?")
         context['back_url'] = reverse_lazy('users_list')
         context['object_del'] = self.get_object().__str__
         return context

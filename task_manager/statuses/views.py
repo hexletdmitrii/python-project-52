@@ -25,8 +25,8 @@ class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Create Status")
-        context['button'] = _("Submit")
+        context['title'] = _("Создать статус")
+        context['button'] = _("Создать")
         context['back_url'] = reverse_lazy('statuses_list')
         return context
 
