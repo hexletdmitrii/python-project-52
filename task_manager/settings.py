@@ -68,7 +68,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'task_manager.urls'
 
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -155,3 +154,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Хранение сессий в базе данных
+SESSION_COOKIE_AGE = 1209600  # Время жизни сессии (2 недели)
+SESSION_SAVE_EVERY_REQUEST = True
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
