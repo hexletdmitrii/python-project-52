@@ -4,19 +4,19 @@ from task_manager.statuses.models import Status
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=255, verbose_name="Name")
-    description = models.TextField(verbose_name="Description", blank=True)
-    status = models.ForeignKey(Status, on_delete=models.PROTECT, verbose_name="Status")
+    name = models.CharField(max_length=255, verbose_name="Имя")
+    description = models.TextField(verbose_name="Описание", blank=True)
+    status = models.ForeignKey(Status, on_delete=models.PROTECT, verbose_name="Статус")
     author = models.ForeignKey(
         User, on_delete=models.CASCADE,
-        related_name="tasks_created", verbose_name="Author")
+        related_name="tasks_created", verbose_name="Создатель")
     executor = models.ForeignKey(
         User, on_delete=models.SET_NULL, related_name="tasks_assigned",
-        null=True, blank=True, verbose_name="Executor")
+        null=True, blank=True, verbose_name="Исполнитель")
     labels = models.ManyToManyField(
-        'labels.Label', blank=True, related_name='tasks', verbose_name="Labels")
+        'labels.Label', blank=True, related_name='tasks', verbose_name="Метка")
     created_at = models.DateTimeField(
-        auto_now_add=True, verbose_name="Created at")
+        auto_now_add=True, verbose_name="Создан")
 
     class Meta:
         verbose_name = "Tasks"

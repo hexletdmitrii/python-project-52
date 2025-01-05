@@ -17,6 +17,11 @@ class TaskFilter(django_filters.FilterSet):
     class Meta:
         model = Task
         fields = ['status', 'executor', 'labels']
+        labels = {
+            'status': 'Статус',
+            'executor': 'Исполнитель',
+            'labels': 'Метка'
+        }
 
     def filter_my_tasks(self, queryset, name, value):
         if value:
