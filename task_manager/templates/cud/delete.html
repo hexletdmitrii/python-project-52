@@ -4,7 +4,7 @@
 <p>Are you sure you want to delete "{{ object_del }}"?</p>
 <form method="post">
     {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Delete</button>
+    <button type="submit" class="btn btn-danger">Да, удалить</button>
 </form>
-<a href="{{ back_url }}">Cancel</a>
+<a href="{{ back_url }}">Назад</a>
 {% endblock %}
