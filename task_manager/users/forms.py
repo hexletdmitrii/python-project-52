@@ -45,7 +45,7 @@ class UserUpdateForm(forms.ModelForm):
     new_password = forms.CharField(
         required=False,
         widget=forms.PasswordInput(attrs={'id': 'id_password1'}),
-        label="Новый пароль"
+        label="Пароль"
     )
     confirm_password = forms.CharField(
         required=False,
@@ -56,6 +56,11 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name']
+        labels = {
+            'username': 'Имя пользователя',
+            'first_name': 'Имя',
+            'last_name': 'Фамилия',
+        }
 
     def clean(self):
         cleaned_data = super().clean()
