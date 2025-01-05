@@ -42,6 +42,9 @@ class UserRegistrationForm(UserCreationForm):
 
 
 class UserUpdateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix = ""
     new_password = forms.CharField(
         required=False,
         widget=forms.PasswordInput(attrs={'id': 'id_password1'}),
