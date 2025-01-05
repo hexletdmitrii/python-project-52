@@ -41,7 +41,7 @@ class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = _("Update Status")
-        context['button'] = _("Submit")
+        context['button'] = _("Изменить")
         context['back_url'] = reverse_lazy('statuses_list')
         return context
 
@@ -63,7 +63,7 @@ class StatusDeleteView(SuccessMessageMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Delete Status")
+        context['title'] = _("Да, удалить")
         context['back_url'] = reverse_lazy('statuses_list')
         context['object_del'] = self.get_object().__str__
         return context
