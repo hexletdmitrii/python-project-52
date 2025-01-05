@@ -7,7 +7,7 @@ from .models import Label
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import redirect
-
+from .forms import LabelForm
 
 class LabelListView(LoginRequiredMixin, ListView):
     model = Label
@@ -17,7 +17,7 @@ class LabelListView(LoginRequiredMixin, ListView):
 
 class LabelCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Label
-    fields = ['name']
+    form_class = LabelForm
     template_name = 'cud/create_update.html'
     success_url = reverse_lazy('labels_list')
     success_message = ("Метка успешно создана")
@@ -32,7 +32,7 @@ class LabelCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Label
-    fields = ['name']
+    form_class = LabelForm
     template_name = 'cud/create_update.html'
     success_url = reverse_lazy('labels_list')
     success_message = ("Метка успешно изменена")
