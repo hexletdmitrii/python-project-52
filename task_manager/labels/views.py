@@ -20,12 +20,12 @@ class LabelCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     fields = ['name']
     template_name = 'cud/create_update.html'
     success_url = reverse_lazy('labels_list')
-    success_message = ("The label has been successfully created!")
+    success_message = ("Метка успешно создана")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Create Lable")
-        context['button'] = _("Submit")
+        context['title'] = _("Создать метку")
+        context['button'] = _("Создать")
         context['back_url'] = reverse_lazy('labels_list')
         return context
 
@@ -35,12 +35,12 @@ class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     fields = ['name']
     template_name = 'cud/create_update.html'
     success_url = reverse_lazy('labels_list')
-    success_message = ("The label has been successfully updated!")
+    success_message = ("Метка успешно изменена")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Update Lable")
-        context['button'] = _("Submit")
+        context['title'] = _("Изменить метку")
+        context['button'] = _("Изменить")
         context['back_url'] = reverse_lazy('labels_list')
         return context
 
@@ -49,7 +49,7 @@ class LabelDeleteView(LoginRequiredMixin, SuccessMessageMixin, UserPassesTestMix
     model = Label
     template_name = 'cud/delete.html'
     success_url = reverse_lazy('labels_list')
-    success_message = _("The label has been successfully deleted!")
+    success_message = _("Метка успешно удалена")
 
     def test_func(self):
         label = self.get_object()
@@ -61,7 +61,7 @@ class LabelDeleteView(LoginRequiredMixin, SuccessMessageMixin, UserPassesTestMix
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Delete Label")
+        context['title'] = _("Удалить метку?")
         context['back_url'] = reverse_lazy('labels_list')
         context['object_del'] = self.get_object().__str__
         return context
