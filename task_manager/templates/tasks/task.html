@@ -4,9 +4,9 @@
 <h1>Task ditails</h1>
 <div>
     <h2>{{ task.name }}</h2>
-    <p><strong>Description:</strong> {{ task.description }}</p>
-    <p><strong>Status:</strong> {{ task.status }}</p>
-    <p><strong>Label:</strong> 
+    <p><strong>Описание:</strong> {{ task.description }}</p>
+    <p><strong>Статус:</strong> {{ task.status }}</p>
+    <p><strong>Метка:</strong> 
         {% if task.labels.exists %}
             {% for label in task.labels.all %}
                 {{ label.name }}{% if not forloop.last %}, {% endif %}
@@ -15,7 +15,9 @@
             Empty
         {% endif %}
     </p>
-    <p><strong>Created at:</strong> {{ task.created_at|date:"d.m.Y H:i" }}</p>
+    <p><strong>Автор:</strong> {{ task.author }}</p>
+    <p><strong>Исполнитель:</strong> {{ task.executor }}</p>
+    <p><strong>Дата создания:</strong> {{ task.created_at|date:"d.m.Y H:i" }}</p>
 </div>
 <a href="{% url 'tasks_list' %}">Back</a>
 {% endblock %}
