@@ -27,7 +27,7 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = TaskForm
     template_name = 'cud/create_update.html'
     success_url = reverse_lazy('tasks_list')
-    success_message = _("The task has been successfully created.")
+    success_message = _("Задача успешно создана")
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -35,7 +35,7 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Создать задачу?")
+        context['title'] = _("Создание задачи")
         context['button'] = _("Создать")
         context['back_url'] = reverse_lazy('tasks_list')
         return context
@@ -50,8 +50,8 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Update Task")
-        context['button'] = _("Submit")
+        context['title'] = _("Обновление задачи")
+        context['button'] = _("Обновить")
         context['back_url'] = reverse_lazy('tasks_list')
         return context
 
@@ -60,7 +60,7 @@ class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin, UserPassesTestMixi
     model = Task
     template_name = 'cud/delete.html'
     success_url = reverse_lazy('tasks_list')
-    success_message = _("Задачу удалена")
+    success_message = _("Задача удалена")
 
     def test_func(self):
         task = self.get_object()
