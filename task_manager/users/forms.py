@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from task_manager.users.models import User
+from django.utils.translation import gettext_lazy as _
 
 
 class LoginUserForm(AuthenticationForm):
@@ -9,35 +10,35 @@ class LoginUserForm(AuthenticationForm):
         self.label_suffix = ""
         self.fields['username'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': 'Имя пользователя',
+            'placeholder': _('Имя пользователя'),
             'name': 'username',
         })
         self.fields['password'].widget.attrs.update({
             'class': 'form-control',
-            'placeholder': 'Пароль',
+            'placeholder': _('Пароль'),
             'name': 'password',
         })
-        self.fields['password'].label = "Пароль"
-        self.fields['username'].label = "Имя пользователя"
+        self.fields['password'].label = _("Пароль")
+        self.fields['username'].label = _("Имя пользователя")
 
 
 class UserRegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.label_suffix = ""
-        self.fields['password1'].label = 'Пароль'
-        self.fields['password2'].label = 'Подтверждение пароля'
+        self.fields['password1'].label = _('Пароль')
+        self.fields['password2'].label = _('Подтверждение пароля')
 
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name',
                   'password1', 'password2']
         labels = {
-            'username': 'Имя пользователя',
-            'first_name': 'Имя',
-            'last_name': 'Фамилия',
-            'password1': 'Пароль',
-            'password2': 'Подтверждение пароля',
+            'username': _('Имя пользователя'),
+            'first_name': _('Имя'),
+            'last_name': _('Фамилия'),
+            'password1': _('Пароль'),
+            'password2': _('Подтверждение пароля'),
         }
 
 
@@ -48,21 +49,21 @@ class UserUpdateForm(forms.ModelForm):
     new_password = forms.CharField(
         required=False,
         widget=forms.PasswordInput(attrs={'id': 'id_password1'}),
-        label="Пароль"
+        label=_("Пароль")
     )
     confirm_password = forms.CharField(
         required=False,
         widget=forms.PasswordInput(attrs={'id': 'id_password2'}),
-        label="Подтверждение пароля"
+        label=_("Подтверждение пароля")
     )
 
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name']
         labels = {
-            'username': 'Имя пользователя',
-            'first_name': 'Имя',
-            'last_name': 'Фамилия',
+            'username': _('Имя пользователя'),
+            'first_name': _('Имя'),
+            'last_name': _('Фамилия'),
         }
 
     def clean(self):
@@ -71,5 +72,5 @@ class UserUpdateForm(forms.ModelForm):
         confirm_password = cleaned_data.get("confirm_password")
 
         if new_password and new_password != confirm_password:
-            raise forms.ValidationError("Пароли не совпадают.")
+            raise forms.ValidationError(_("Пароли не совпадают."))
         return cleaned_data

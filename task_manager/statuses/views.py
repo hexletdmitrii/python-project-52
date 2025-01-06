@@ -40,7 +40,7 @@ class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Update Status")
+        context['title'] = _("Изменить название статуса")
         context['button'] = _("Изменить")
         context['back_url'] = reverse_lazy('statuses_list')
         return context
@@ -65,6 +65,6 @@ class StatusDeleteView(SuccessMessageMixin, DeleteView):
 
         if related_tasks.exists():
             messages.error(self.request, _(
-                "Невозможно удалить статус, так как он связан с задачами"))
+                _("Невозможно удалить статус, так как он связан с задачами")))
             return redirect('statuses_list')
         return super().form_valid(form)

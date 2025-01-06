@@ -20,7 +20,7 @@ class LabelCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = LabelForm
     template_name = 'cud/create_update.html'
     success_url = reverse_lazy('labels_list')
-    success_message = ("Метка успешно создана")
+    success_message = _("Метка успешно создана")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -35,7 +35,7 @@ class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = LabelForm
     template_name = 'cud/create_update.html'
     success_url = reverse_lazy('labels_list')
-    success_message = ("Метка успешно изменена")
+    success_message = _("Метка успешно изменена")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
