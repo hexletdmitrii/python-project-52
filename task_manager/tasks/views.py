@@ -46,7 +46,7 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = TaskForm
     template_name = 'cud/create_update.html'
     success_url = reverse_lazy('tasks_list')
-    success_message = _("The task has been successfully updated.")
+    success_message = _("Задача обновлена")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -60,20 +60,20 @@ class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin, UserPassesTestMixi
     model = Task
     template_name = 'cud/delete.html'
     success_url = reverse_lazy('tasks_list')
-    success_message = _("Task successfully deleted.")
+    success_message = _("Задачу удалена")
 
     def test_func(self):
         task = self.get_object()
         return task.author == self.request.user
 
     def handle_no_permission(self):
-        messages.error(self.request, "You cannot delete this task.")
+        messages.error(self.request, "Вы не можете удалить задачу")
         return redirect('tasks_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = _("Delete Task")
-        context['back_url'] = "/tasks/"
+        context['title'] = _("Удалить задачу?")
+        context['back_url'] = reverse_lazy('tasks_list')
         context['object_del'] = self.get_object().__str__
         return context
 

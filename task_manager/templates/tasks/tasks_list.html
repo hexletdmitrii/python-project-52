@@ -7,7 +7,7 @@
 
 <form method="get">
     {{ filter.form|crispy }}
-    <button type="submit" class="btn btn-primary mt-3">Filter</button>
+    <button type="submit" class="btn btn-primary mt-3">Показать</button>
 </form>
 
 
@@ -16,12 +16,12 @@
         <thead>
             <tr>
                 <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Status</th>
-                <th scope="col">Author</th>
-                <th scope="col">Executor</th>
-                <th scope="col">Created at</th>
-                <th scope="col">Actions</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Статус</th>
+                <th scope="col">Автор</th>
+                <th scope="col">Исполнитель</th>
+                <th scope="col">Дата создания</th>
+                <th scope="col"></th>
             </tr>
         </thead>
         <tbody>
@@ -34,9 +34,9 @@
                     <td>{{ task.executor }}</td>
                     <td>{{ task.created_at }}</td>
                     <td>
-                        <a href="{% url 'task_update' task.pk %}">Edit</a>
+                        <a href="{% url 'task_update' task.pk %}">Изменить</a>
                         &nbsp;
-                        <a href="{% url 'task_delete' task.pk %}">Delete</a>
+                        <a href="{% url 'task_delete' task.pk %}">Удалить</a>
                     </td>
                 </tr>
             {% empty %}

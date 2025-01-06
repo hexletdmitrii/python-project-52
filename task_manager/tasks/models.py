@@ -9,7 +9,7 @@ class Task(models.Model):
     status = models.ForeignKey(Status, on_delete=models.PROTECT, verbose_name="Статус")
     author = models.ForeignKey(
         User, on_delete=models.CASCADE,
-        related_name="tasks_created", verbose_name="Создатель")
+        related_name="tasks_created", verbose_name="Автор")
     executor = models.ForeignKey(
         User, on_delete=models.SET_NULL, related_name="tasks_assigned",
         null=True, blank=True, verbose_name="Исполнитель")
