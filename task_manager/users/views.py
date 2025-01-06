@@ -17,7 +17,7 @@ class UserIsOwnerMixin:
     def dispatch(self, request, *args, **kwargs):
         user = self.get_object()
         if request.user != user:
-            messages.error(request, _("You are not allowed to perform this action."))
+            messages.error(request, _("У вас нет прав для изменения"))
             return redirect('users_list')
         return super().dispatch(request, *args, **kwargs)
 
@@ -30,10 +30,6 @@ class UserListView(ListView):
     model = User
     template_name = 'users/users_list.html'
     context_object_name = 'users'
-    def get(self, request, *args, **kwargs):
-    # Отладка: выводим сообщения после редиректа
-        print(f"Сообщения после редиректа: {request._messages._queued_messages}")
-        return super().get(request, *args, **kwargs)
 
 
 class LoginUserView(SuccessMessageMixin, LoginView):
