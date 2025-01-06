@@ -6,12 +6,12 @@ from django import forms
 class TaskFilter(django_filters.FilterSet):
     status = django_filters.ModelChoiceFilter(
         queryset=Status.objects.all(),
-        label="Status"
+        label="Статус"
     )
     my_tasks = django_filters.BooleanFilter(
         method='filter_my_tasks',
         widget=forms.CheckboxInput,
-        label="Show only my tasks"
+        label="Только свои задачи"
     )
 
     class Meta:
