@@ -1,7 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from task_manager.users.models import User
-from django.core.exceptions import ValidationError
 
 
 class LoginUserForm(AuthenticationForm):
@@ -31,7 +30,8 @@ class UserRegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'first_name', 'last_name', 'password1', 'password2']
+        fields = ['username', 'first_name', 'last_name',
+                  'password1', 'password2']
         labels = {
             'username': 'Имя пользователя',
             'first_name': 'Имя',
@@ -73,4 +73,3 @@ class UserUpdateForm(forms.ModelForm):
         if new_password and new_password != confirm_password:
             raise forms.ValidationError("Пароли не совпадают.")
         return cleaned_data
-

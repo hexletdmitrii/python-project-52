@@ -6,7 +6,8 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
 from task_manager.users.models import User
-from task_manager.users.forms import LoginUserForm, UserRegistrationForm, UserUpdateForm
+from task_manager.users.forms import (LoginUserForm, UserRegistrationForm,
+                                      UserUpdateForm)
 from django.contrib.messages.views import SuccessMessageMixin
 
 
@@ -38,7 +39,8 @@ class LoginUserView(SuccessMessageMixin, LoginView):
         return reverse_lazy('home')
 
     def form_invalid(self, form):
-        messages.error(self.request, _("Неверное имя пользователя или пароль."))
+        messages.error(self.request, _(
+            "Неверное имя пользователя или пароль."))
         return super().form_invalid(form)
 
 

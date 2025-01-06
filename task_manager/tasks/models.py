@@ -6,7 +6,9 @@ from task_manager.statuses.models import Status
 class Task(models.Model):
     name = models.CharField(max_length=255, verbose_name="Имя")
     description = models.TextField(verbose_name="Описание", blank=True)
-    status = models.ForeignKey(Status, on_delete=models.PROTECT, verbose_name="Статус")
+    status = models.ForeignKey(
+        Status, on_delete=models.PROTECT,
+        verbose_name="Статус")
     author = models.ForeignKey(
         User, on_delete=models.CASCADE,
         related_name="tasks_created", verbose_name="Автор")
