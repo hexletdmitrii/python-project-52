@@ -8,9 +8,6 @@ from django.utils.translation import gettext_lazy as _
 from task_manager.users.models import User
 from task_manager.users.forms import LoginUserForm, UserRegistrationForm, UserUpdateForm
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.forms import PasswordChangeForm
-from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class UserIsOwnerMixin:

@@ -8,6 +8,7 @@ from task_manager.tasks.models import Task
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import gettext_lazy as _
 from django.shortcuts import redirect
+from task_manager.tasks.models import Task
 
 
 class StatusListView(LoginRequiredMixin, ListView):
@@ -46,24 +47,47 @@ class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return context
 
 
-class StatusDeleteView(SuccessMessageMixin, UserPassesTestMixin, DeleteView):
+class StatusDeleteView(SuccessMessageMixin, DeleteView):
     model = Status
     success_url = reverse_lazy('statuses_list')
     template_name = 'cud/delete.html'
     success_message = _("Статус успешно удален")
 
-    def test_func(self):
-        status = self.get_object()
-        related_tasks = Task.objects.filter(status=status)
-        return not related_tasks.exists()
-
-    def handle_no_permission(self):
-        messages.error(self.request, _("Cannot delete the status as it is linked to tasks!"))
-        return redirect('labels_list')
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = _("Удалить статус?")
         context['back_url'] = reverse_lazy('statuses_list')
-        context['object_del'] = self.get_object().__str__
+        context['object_del'] = self.get_object().__str__()
         return context
+
+    def form_valid(self, form):
+        status = self.get_object()
+        related_tasks = Task.objects.filter(status=status)
+
+        if related_tasks.exists():
+            messages.error(self.request, _("Невозможно удалить статус, так как он связан с задачами!"))
+            return redirect('statuses_list')
+        return super().form_valid(form)
+
+
+# class StatusDeleteView(SuccessMessageMixin, UserPassesTestMixin, DeleteView):
+#     model = Status
+#     success_url = reverse_lazy('statuses_list')
+#     template_name = 'cud/delete.html'
+#     success_message = _("Статус успешно удален")
+
+#     def test_func(self):
+#         status = self.get_object()
+#         related_tasks = Task.objects.filter(status=status)
+#         return not related_tasks.exists()
+
+#     def handle_no_permission(self):
+#         messages.error(self.request, _("Cannot delete the status as it is linked to tasks!"))
+#         return redirect('labels_list')
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['title'] = _("Удалить статус?")
+#         context['back_url'] = reverse_lazy('statuses_list')
+#         context['object_del'] = self.get_object().__str__
+#         return context
