@@ -46,7 +46,7 @@ class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = TaskForm
     template_name = 'cud/create_update.html'
     success_url = reverse_lazy('tasks_list')
-    success_message = _("Задача успешно обновлена")
+    success_message = _("Задача успешно изменена")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
