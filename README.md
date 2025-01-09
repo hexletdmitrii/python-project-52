@@ -3,6 +3,7 @@
 ## Hexlet tests and linter status:
 [![Actions Status](https://github.com/hexletdmitrii/python-project-52/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/hexletdmitrii/python-project-52/actions)
 [![Maintainability](https://api.codeclimate.com/v1/badges/9c2840692547e0af1b71/maintainability)](https://codeclimate.com/github/hexletdmitrii/python-project-52/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/9c2840692547e0af1b71/test_coverage)](https://codeclimate.com/github/hexletdmitrii/python-project-52/test_coverage)
 
 [Live Demo](https://python-project-52-7j3i.onrender.com/)
 
@@ -31,17 +32,20 @@ This project is a web application for task management, developed using Django. T
 2. Navigate to the project directory:
     cd task_manager
 
-3. Install dependencies:
+3. Install poetry:
+    pip install poetry
+
+4. Install dependencies:
     make install
 
-4. Start the development server:
+5. Start the development server:
     make dev
 
-5. Start the development server:
+6. Start the development server:
     make start
 
-6. Run the linter:
+7. Run the linter:
     make lint
 
-7. Run tests:
+8. Run tests:
     make test

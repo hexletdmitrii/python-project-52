@@ -29,7 +29,8 @@ class UserTest(TestCase):
                 last_name='User'
             )
         exception_message = str(context.exception).lower()
-        self.assertTrue('unique' in exception_message or 'constraint' in exception_message)
+        self.assertTrue(
+            'unique' in exception_message or 'constraint' in exception_message)
 
     def test_user_update_form(self):
         new_first_name = 'Updated'
