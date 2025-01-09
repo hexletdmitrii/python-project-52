@@ -6,7 +6,8 @@ from task_manager.tasks.models import Task
 
 class TaskModelTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username="testuser", password="password123")
+        self.user = User.objects.create_user(
+            username="testuser", password="password123")
         self.status = Status.objects.create(name="New")
         self.task = Task.objects.create(
             name="Test Task",
