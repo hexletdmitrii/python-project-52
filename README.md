@@ -59,3 +59,6 @@ This project is a web application for task management, developed using Django. T
 ## Configuration
 - DJANGO_SECRET_KEY: The secret key for the Django application.
 - DATABASE_URL: The URL for the PostgreSQL database in the format:
+
+## Migration
+- Make migrate
