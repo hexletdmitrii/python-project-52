@@ -25,10 +25,17 @@ jobs:
       - name: Run tests with coverage
         run: make test-coverage
 
+      - name: Debug coverage
+        run: |
+          echo "Checking for coverage.xml"
+          ls -la
+          cat coverage.xml
+
       - name: Upload coverage to Code Climate
         uses: paambaati/codeclimate-action@v3.0.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageCommand: make test-coverage
+          coverageLocations: coverage.xml
           debug: true
