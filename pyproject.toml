@@ -17,6 +17,8 @@ django-filter = "^24.3"
 rollbar = "^1.1.0"
 django-crispy-forms = "^2.3"
 crispy-bootstrap5 = "^2024.10"
+pip = "^24.3.1"
+coverage = "^7.6.10"
 
 
 [tool.poetry.group.dev.dependencies]

@@ -4,6 +4,11 @@ lint:
 test:
 	poetry run python3 manage.py test
 
+test-coverage:
+	coverage run manage.py test
+	coverage report
+	coverage xml
+
 install:
 	poetry install
 
