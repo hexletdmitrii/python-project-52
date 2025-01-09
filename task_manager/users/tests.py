@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 from django.test import TestCase
 
 User = get_user_model()
@@ -20,14 +21,15 @@ class UserTest(TestCase):
         self.assertTrue(User.objects.filter(username=self.username).exists())
 
     def test_create_unique_user_form(self):
-        with self.assertRaises(Exception) as context:
+        with self.assertRaises(IntegrityError) as context:
             User.objects.create_user(
                 username=self.username,
                 password='newpassword',
                 first_name='New',
                 last_name='User'
             )
-        self.assertTrue('unique constraint' in str(context.exception))
+        exception_message = str(context.exception).lower()
+        self.assertTrue('unique' in exception_message or 'constraint' in exception_message)
 
     def test_user_update_form(self):
         new_first_name = 'Updated'
@@ -35,8 +37,10 @@ class UserTest(TestCase):
         self.user.first_name = new_first_name
         self.user.last_name = new_last_name
         self.user.save()
-        self.assertEqual(self.user.first_name, new_first_name)
-        self.assertEqual(self.user.last_name, new_last_name)
+
+        user_from_db = User.objects.get(username=self.username)
+        self.assertEqual(user_from_db.first_name, new_first_name)
+        self.assertEqual(user_from_db.last_name, new_last_name)
 
     def test_user_delete_form(self):
         initial_count = User.objects.count()
