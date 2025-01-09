@@ -108,7 +108,6 @@ else:
     }
 
 
-
 ROLLBAR = {
     'access_token': os.getenv('ROLLBAR_ACCESS_TOKEN'),
     'environment': os.getenv('DJANGO_ENV', 'production'),
