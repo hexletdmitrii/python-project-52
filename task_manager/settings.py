@@ -14,6 +14,7 @@ import os
 from dotenv import load_dotenv
 import dj_database_url
 from django.contrib.messages import constants as message_constants
+import sys
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -94,9 +95,18 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 load_dotenv()
 
-DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
-}
+if 'test' in sys.argv or 'pytest' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': ':memory:',
+        }
+    }
+else:
+    DATABASES = {
+        'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    }
+
 
 
 ROLLBAR = {
