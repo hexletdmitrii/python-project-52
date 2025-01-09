@@ -25,7 +25,7 @@ class TaskListView(FilterView):
 class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Task
     form_class = TaskForm
-    template_name = 'cud/create_update.html'
+    template_name = 'tasks/create.html'
     success_url = reverse_lazy('tasks_list')
     success_message = _("Задача успешно создана")
 
@@ -33,33 +33,19 @@ class TaskCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = _("Создание задачи")
-        context['button'] = _("Создать")
-        context['back_url'] = reverse_lazy('tasks_list')
-        return context
-
 
 class TaskUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Task
     form_class = TaskForm
-    template_name = 'cud/create_update.html'
+    template_name = 'tasks/update.html'
     success_url = reverse_lazy('tasks_list')
     success_message = _("Задача успешно изменена")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = _("Обновление задачи")
-        context['button'] = _("Изменить")
-        context['back_url'] = reverse_lazy('tasks_list')
-        return context
 
 
 class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin,
                      UserPassesTestMixin, DeleteView):
     model = Task
-    template_name = 'cud/delete.html'
+    template_name = 'tasks/delete.html'
     success_url = reverse_lazy('tasks_list')
     success_message = _("Задача успешно удалена")
 
@@ -68,15 +54,8 @@ class TaskDeleteView(LoginRequiredMixin, SuccessMessageMixin,
         return task.author == self.request.user
 
     def handle_no_permission(self):
-        messages.error(self.request, "Задачу может удалить только ее автор")
+        messages.error(self.request, _("Задачу может удалить только ее автор"))
         return redirect('tasks_list')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = _("Удалить задачу?")
-        context['back_url'] = reverse_lazy('tasks_list')
-        context['object_del'] = self.get_object().__str__
-        return context
 
 
 class TaskDetailView(DetailView):

@@ -18,45 +18,24 @@ class LabelListView(LoginRequiredMixin, ListView):
 class LabelCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Label
     form_class = LabelForm
-    template_name = 'cud/create_update.html'
+    template_name = 'labels/create.html'
     success_url = reverse_lazy('labels_list')
     success_message = _("Метка успешно создана")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = _("Создать метку")
-        context['button'] = _("Создать")
-        context['back_url'] = reverse_lazy('labels_list')
-        return context
 
 
 class LabelUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Label
     form_class = LabelForm
-    template_name = 'cud/create_update.html'
+    template_name = 'labels/update.html'
     success_url = reverse_lazy('labels_list')
     success_message = _("Метка успешно изменена")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = _("Изменить метку")
-        context['button'] = _("Изменить")
-        context['back_url'] = reverse_lazy('labels_list')
-        return context
 
 
 class LabelDeleteView(SuccessMessageMixin, DeleteView):
     model = Label
     success_url = reverse_lazy('labels_list')
-    template_name = 'cud/delete.html'
+    template_name = 'labels/delete.html'
     success_message = _("Метка успешно удалена")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = _("Удалить Метку?")
-        context['back_url'] = reverse_lazy('labels_list')
-        context['object_del'] = self.get_object().__str__()
-        return context
 
     def form_valid(self, form):
         label = self.get_object()

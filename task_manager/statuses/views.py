@@ -19,45 +19,24 @@ class StatusListView(LoginRequiredMixin, ListView):
 class StatusCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Status
     form_class = StatusForm
-    template_name = 'cud/create_update.html'
+    template_name = 'statuses/create.html'
     success_url = reverse_lazy('statuses_list')
     success_message = _("Статус успешно создан")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = _("Создать статус")
-        context['button'] = _("Создать")
-        context['back_url'] = reverse_lazy('statuses_list')
-        return context
 
 
 class StatusUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Status
     form_class = StatusForm
-    template_name = 'cud/create_update.html'
+    template_name = 'statuses/update.html'
     success_url = reverse_lazy('statuses_list')
     success_message = _("Статус успешно изменен")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = _("Изменить название статуса")
-        context['button'] = _("Изменить")
-        context['back_url'] = reverse_lazy('statuses_list')
-        return context
 
 
 class StatusDeleteView(SuccessMessageMixin, DeleteView):
     model = Status
     success_url = reverse_lazy('statuses_list')
-    template_name = 'cud/delete.html'
+    template_name = 'statuses/delete.html'
     success_message = _("Статус успешно удален")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = _("Удалить статус?")
-        context['back_url'] = reverse_lazy('statuses_list')
-        context['object_del'] = self.get_object().__str__()
-        return context
 
     def form_valid(self, form):
         status = self.get_object()

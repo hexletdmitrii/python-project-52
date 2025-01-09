@@ -1,0 +1,9 @@
+{% extends "cud/create_update.html" %}
+{% block title %}
+    <h1>Изменить название статуса</h1>
+{% endblock %}
+
+{% block form_buttons %}
+    <button type="submit" class="btn btn-primary">Изменить</button>
+    <a href="{% url 'statuses_list' %}" class="btn btn-secondary">Назад</a>
+{% endblock %}

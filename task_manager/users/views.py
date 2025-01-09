@@ -40,7 +40,7 @@ class LoginUserView(SuccessMessageMixin, LoginView):
 
     def form_invalid(self, form):
         messages.error(self.request, _(
-            "Неверное имя пользователя или пароль."))
+            _("Неверное имя пользователя или пароль")))
         return super().form_invalid(form)
 
 
@@ -55,9 +55,9 @@ class UserLogoutView(LogoutView):
 class UserCreateView(SuccessMessageMixin, CreateView):
     model = User
     form_class = UserRegistrationForm
-    template_name = 'cud/create_update.html'
+    template_name = 'users/create.html'
     success_url = reverse_lazy('users_login')
-    success_message = "Пользователь успешно зарегистрирован"
+    success_message = _("Пользователь успешно зарегистрирован")
 
     def form_valid(self, form):
         user = form.save(commit=False)
@@ -65,17 +65,10 @@ class UserCreateView(SuccessMessageMixin, CreateView):
         user.save()
         return super().form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = _("Регистрация")
-        context['button'] = _("Зарегистрировать")
-        context['back_url'] = reverse_lazy('users_list')
-        return context
-
 
 class UserUpdateView(UserIsOwnerMixin, SuccessMessageMixin, UpdateView):
     model = User
-    template_name = 'cud/create_update.html'
+    template_name = 'users/update.html'
     success_url = reverse_lazy('users_list')
     success_message = _("Пользователь успешно изменен")
     form_class = UserUpdateForm
@@ -88,23 +81,9 @@ class UserUpdateView(UserIsOwnerMixin, SuccessMessageMixin, UpdateView):
         user.save()
         return super().form_valid(form)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = _("Изменение пользователя")
-        context['button'] = _("Изменить")
-        context['back_url'] = reverse_lazy('users_list')
-        return context
-
 
 class UserDeleteView(UserIsOwnerMixin, SuccessMessageMixin, DeleteView):
     model = User
-    template_name = 'cud/delete.html'
+    template_name = 'users/delete.html'
     success_url = reverse_lazy('users_list')
     success_message = _("Пользователь успешно удален")
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = _("Удалить пользователя?")
-        context['back_url'] = reverse_lazy('users_list')
-        context['object_del'] = self.get_object().__str__
-        return context

@@ -1,0 +1,9 @@
+{% extends "cud/create_update.html" %}
+{% block title %}
+    <h1>Создание задачи</h1>
+{% endblock %}
+
+{% block form_buttons %}
+    <button type="submit" class="btn btn-primary">Создать</button>
+    <a href="{% url 'tasks_list' %}" class="btn btn-secondary">Назад</a>
+{% endblock %}

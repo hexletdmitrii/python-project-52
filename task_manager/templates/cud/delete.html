@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>{{ title }}</h1>
-<p>Are you sure you want to delete "{{ object_del }}"?</p>
+
+{% block title %}
+{% endblock %}
 <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Да, удалить</button>
+    {% block form_buttons %}
+    {% endblock %}
 </form>
-<a href="{{ back_url }}">Назад</a>
+
+
 {% endblock %}
