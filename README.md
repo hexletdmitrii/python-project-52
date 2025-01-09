@@ -24,6 +24,11 @@ This project is a web application for task management, developed using Django. T
 - **Bootstrap**: Used for styling the interface.
 - **Python**: The programming language used for development.
 
+## Requirements
+
+- **CPython:** Version 3.10 or higher is required for running the application.
+- **PostgreSQL:** A running instance of PostgreSQL is required for the database.
+
 ## Installation
 
 1. Clone the repository:
@@ -49,3 +54,8 @@ This project is a web application for task management, developed using Django. T
 
 8. Run tests:
     make test
+
+
+## Configuration
+- DJANGO_SECRET_KEY: The secret key for the Django application.
+- DATABASE_URL: The URL for the PostgreSQL database in the format:
